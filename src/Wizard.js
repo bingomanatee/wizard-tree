@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Page from "./Page";
+import Control from "./Control";
 import sortBy from "lodash.sortby";
 import WizardContext from "./WizardContext";
 import isEqual from "lodash.isequal";
@@ -9,8 +10,25 @@ export default class WizardManager extends Component {
     this.state = {
       title: "wizard",
       pages: new Map(),
-      currentPageId: null
+      currentPageId: null,
+      controls: new Map()
     };
+  }
+
+  addPageControl(pageId, ...args) {
+    let page = this.pages.get(pageId);
+    if (!page) {
+      console.log("cannot find a page", pageId);
+      return;
+    }
+    page = page.clone();
+    let control = new Control(...args);
+    if (control.id) {
+      page.controls.set(control.id, control);
+      let pages = this.pages;
+      pages.set(page.id, page);
+      this.pages = pages;
+    }
   }
 
   firstPage() {
@@ -107,6 +125,35 @@ export default class WizardManager extends Component {
     this.setState({ pages });
   }
 
+  getFormValue(pageId, controlId) {
+    let page = this.pages.get(pageId);
+    if (!page) {
+      return null;
+    }
+    let control = page.controls.get(controlId);
+    if (!control) {
+      return null;
+    }
+    return control.value;
+  }
+  setFormValue(pageId, controlId, value) {
+    let page = this.pages.get(pageId);
+    if (!page) {
+      return null;
+    }
+    page = page.clone();
+    let control = page.controls.get(controlId);
+    if (!control) {
+      return null;
+    }
+    control = control.clone();
+    control.value = value;
+    page.controls.set(control.id, control);
+    let pages = this.pages;
+    pages.set(page.id, page);
+    this.pages = pages;
+  }
+
   addPage(...args) {
     const page = new Page(...args);
     if (!page.id) {
@@ -121,7 +168,7 @@ export default class WizardManager extends Component {
           page.order = otherPage.order;
         }
       });
-        page.order += 1;
+      page.order += 1;
     }
 
     const pages = this.pages;
@@ -174,7 +221,9 @@ export default class WizardManager extends Component {
       nextPage: () => this.nextPage(),
       goNext: () => this.goNext(),
       goPrev: () => this.goPrev(),
-      addPage: (...args) => this.addPage(...args)
+      addPage: (...args) => this.addPage(...args),
+      getFormValue: (...args) => this.getFormValue(...args),
+      setFormValue: (...args) => this.setFormValue(...args)
     };
   }
 
