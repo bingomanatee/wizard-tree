@@ -136,7 +136,7 @@ export default class WizardManager extends Component {
     }
     return control.value;
   }
-  setForValue(pageId, controlId, value) {
+  setFormValue(pageId, controlId, value) {
     let page = this.pages.get(pageId);
     if (!page) {
       return null;
