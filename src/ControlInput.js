@@ -5,6 +5,8 @@ export default ({ page, control }) => {
   const [value, setValue] = useState(control ? control.value : "");
   const context = useContext(WizardContext);
   useEffect(() => {
+    console.log("controlcontext: ",context);
+    console.log("controlcontext: ",context);
     let cValue = context.getFormValue(page.id, control.id);
     if (value !== cValue) {
       context.setFormValue(page.id, control.id, value);
