@@ -1,7 +1,7 @@
 {
-  "name": "wizard-tree",
+  "name": "wizard",
   "version": "1.0.0",
-  "description": "a generalized wizard model",
+  "description": "",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
