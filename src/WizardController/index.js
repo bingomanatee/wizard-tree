@@ -9,7 +9,6 @@ export default ({}) => {
   }, [wizardContext]);
 
   useEffect(() => {
-    console.log("----- adding pages:");
     wizardContext.addPage("first", "First Page");
     wizardContext.addPage("next", "Next Page");
     wizardContext.addPage("the one where Rachel marries Ross", "Friends Page");

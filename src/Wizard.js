@@ -115,12 +115,13 @@ export default class WizardManager extends Component {
     }
 
     if (page.order === null) {
+      page.order = -1;
       this.pages.forEach((otherPage) => {
         if (otherPage.order > page.order) {
           page.order = otherPage.order;
         }
       });
-      page.order += 1;
+        page.order += 1;
     }
 
     const pages = this.pages;
