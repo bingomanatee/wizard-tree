@@ -4,15 +4,20 @@ import Control from "./Control";
 import sortBy from "lodash.sortby";
 import WizardContext from "./WizardContext";
 import isEqual from "lodash.isequal";
+import produce, { enableMapSet } from "immer";
+enableMapSet();
+
+const INITIAL = {
+  title: "wizard",
+  pages: new Map(),
+  currentPageId: null,
+  controls: new Map()
+};
+
 export default class WizardManager extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      title: "wizard",
-      pages: new Map(),
-      currentPageId: null,
-      controls: new Map()
-    };
+    this.state = produce(INITIAL, (draft) => {});
   }
 
   addPageControl(pageId, ...args) {
@@ -31,7 +36,7 @@ export default class WizardManager extends Component {
     }
   }
 
-  firstPage() {
+  get firstPage() {
     let first = null;
     this.pages.forEach((page, id) => {
       console.log(
@@ -57,26 +62,32 @@ export default class WizardManager extends Component {
     if (id === this.state.currentPageId) return;
     console.log("going to ", id, "from ", currentPageId);
     if (this.pages.has(id)) {
-      this.setState({ currentPageId: id }, cb);
+      this.setState(
+        (state) =>
+          produce(state, (draft) => {
+            draft.currentPageId = id;
+          }),
+        cb
+      );
     } else {
       console.log("goId: no id ", id);
     }
   }
 
   goFirst() {
-    let first = this.firstPage();
+    let first = this.firstPage;
     if (first) {
       this.goId(first.id);
     }
   }
 
-  currentPage() {
+  get currentPage() {
     const { pages, currentPageId } = this.state;
     if (!currentPageId) return null;
     return pages.get(currentPageId);
   }
 
-  nextPage() {
+  get nextPage() {
     let currentPage = this.currentPage();
     if (!currentPage) return null;
     let next = null;
@@ -87,8 +98,8 @@ export default class WizardManager extends Component {
     return next;
   }
 
-  prevPage() {
-    let currentPage = this.currentPage();
+  get prevPage() {
+    let currentPage = this.currentPage;
     if (!currentPage) return null;
     let prev = null;
     this.state.pages.forEach((page, id) => {
@@ -99,7 +110,7 @@ export default class WizardManager extends Component {
   }
 
   goNext() {
-    const nextPage = this.nextPage();
+    const nextPage = this.nextPage;
     if (nextPage) {
       this.goId(nextPage.id);
     } else {
@@ -108,7 +119,7 @@ export default class WizardManager extends Component {
   }
 
   goPrev() {
-    const prevPage = this.prevPage();
+    const prevPage = this.prevPage;
     if (!prevPage) {
       console.log("cannot go to prev page");
     } else {
@@ -120,9 +131,17 @@ export default class WizardManager extends Component {
     return this.state.pages;
   }
 
-  set pages(map) {
-    const pages = new Map(map);
-    this.setState({ pages });
+  set pages(pages) {
+    this.setState(produce(this.state, (draft) => (draft.pages = pages)));
+  }
+
+  setPages(pages, cb) {
+    this.setState(
+      produce(this.state, (draft) => {
+        draft.pages = pages;
+      }),
+      cb
+    );
   }
 
   getFormValue(pageId, controlId) {
@@ -136,6 +155,7 @@ export default class WizardManager extends Component {
     }
     return control.value;
   }
+
   setFormValue(pageId, controlId, value) {
     let page = this.pages.get(pageId);
     if (!page) {
@@ -155,6 +175,9 @@ export default class WizardManager extends Component {
   }
 
   addPage(...args) {
+    let cb = null;
+    if (typeof args[args.length - 1] === "function") cb = args.pop();
+
     const page = new Page(...args);
     if (!page.id) {
       console.log("cannot add page without id:", page);
@@ -171,13 +194,17 @@ export default class WizardManager extends Component {
       page.order += 1;
     }
 
-    const pages = this.pages;
-    pages.set(page.id, page);
-    this.pages = pages;
+    this.setState(
+      (state) =>
+        produce(state, ({ pages }) => {
+          pages.set(page.id, page);
+        }),
+      cb
+    );
     // @TODO: check for duplicate orders and IDs
   }
 
-  pageList() {
+  get pageList() {
     return sortBy(Array.from(this.pages.values()), "order", "id");
   }
 
@@ -189,47 +216,36 @@ export default class WizardManager extends Component {
     }
   }
 
-  updatePage(id, update) {
-    let page = this.pages.get(id);
+  updatePage(id, update, cb) {
     if (!update) {
       console.log("updatePage: no update", id, update);
     }
-    if (!page) {
-      console.log("updatePage: no page ", id, update);
-      return;
-    }
-    if (typeof update === "function") {
-      let newPage = update(page.clone());
-      this.pages.set(newPage.id, newPage);
-    } else if (typeof update === "object") {
-      let newPage = page.clone(update);
-      this.pages.set(newPage.id, newPage);
-    } else {
-      console.log("cannot update page with ", id, update);
-    }
+    this.setState((state) => {
+      let page = state.pages.get(id);
+      if (!page) {
+        console.log("updatePage: no page ", id, update);
+        return;
+      }
+      if (typeof update === "function") {
+        state.pages.set(id, update(page));
+      } else if (typeof update === "object") {
+        state.pages.set(id, { ...page, ...update });
+      }
+    }, cb);
   }
 
-  snapshot() {
-    return {
-      ...this.state,
-      pageList: this.pageList(),
-      first: this.firstPage(),
-      next: this.nextPage(),
-      prev: this.prevPage(),
-      currentPage: this.currentPage(),
-      updatePage: (...args) => this.updatePage(...args),
-      nextPage: () => this.nextPage(),
-      goNext: () => this.goNext(),
-      goPrev: () => this.goPrev(),
-      addPage: (...args) => this.addPage(...args),
-      getFormValue: (...args) => this.getFormValue(...args),
-      setFormValue: (...args) => this.setFormValue(...args)
-    };
+  proxy() {
+    if (typeof Proxy === 'undefined') {
+      return produce(this.state, (draft) => {
+        pageList: this.pageList, 
+
+      })
+    }
   }
 
   render() {
     return (
-      <WizardContext.Provider value={this.snapshot()}>
+      <WizardContext.Provider value={this.proxy}>
         {this.props.children}
       </WizardContext.Provider>
     );
