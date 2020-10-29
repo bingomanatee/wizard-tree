@@ -17,7 +17,7 @@ export default ({ page, control }) => {
   }
 
   function updateValue(event) {
-    setValue(this.event.target.value);
+    setValue(event.target.value);
   }
   return <input type="text" value={value} onChange={updateValue} />;
 };

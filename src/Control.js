@@ -1,4 +1,7 @@
+import {immerable} from "immer"
+
 export default class Control {
+  [immerable] = true
   constructor(id, label, value = null) {
     this._id = id;
     this.label = label;

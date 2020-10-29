@@ -25,8 +25,8 @@ export default ({}) => {
   }, []);
 
   if (!wizardContext) return "";
-
-  const { prev, next, currentPageId, pageList, currentPage } = wizardContext;
+  console.log('pageList: ', wizardContext.pageList);
+  const { prevPage, nextPage, currentPageId, pageList, currentPage } = wizardContext;
   return (
     <>
       <h1>The Great Tree of Wizards! Page {currentPageId}</h1>
@@ -41,12 +41,12 @@ export default ({}) => {
           </li>
         ))}
       </ul>
-      <div>{prev && "previous: " + prev.id}</div>
-      <div>{next && "next: " + next.id}</div>
+      <div>{prevPage && "previous: " + prevPage.id}</div>
+      <div>{nextPage && "next: " + nextPage.id}</div>
       <PageView page={currentPage}></PageView>
       <div>
-        {prev && <button onClick={wizardContext.goPrev}>Prev</button>}
-        {wizardContext.next && (
+        {prevPage && <button onClick={wizardContext.goPrev}>Prev</button>}
+        {nextPage && (
           <button onClick={wizardContext.goNext}>Next</button>
         )}
       </div>

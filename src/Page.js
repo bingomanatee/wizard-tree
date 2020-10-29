@@ -1,4 +1,8 @@
+import {immerable} from "immer"
+
 export default class Page {
+[immerable] = true
+
   constructor(id, title, order = null, controls = new Map()) {
     this._id = id;
     this.title = title;

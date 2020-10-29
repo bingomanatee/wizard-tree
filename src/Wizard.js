@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Page from "./Page";
 import Control from "./Control";
 import sortBy from "lodash.sortby";
 import WizardContext from "./WizardContext";
 import isEqual from "lodash.isequal";
-import produce, { enableMapSet } from "immer";
+import produce, {enableMapSet, enableES5} from "immer";
+
 enableMapSet();
+enableES5();
 
 const INITIAL = {
   title: "wizard",
@@ -14,10 +16,14 @@ const INITIAL = {
   controls: new Map()
 };
 
+const ALLOWED_FUNCTIONS = 'addPage,goNext,goPrev,setPages,getFormValue,setFormValue'.split(',');
+const ALLOWED_PROPERTIES = 'firstPage,prevPage,nextPage,currentPage,pageList'.split(',');
+
 export default class WizardManager extends Component {
   constructor(props) {
     super(props);
-    this.state = produce(INITIAL, (draft) => {});
+    this.state = produce(INITIAL, (draft) => {
+    });
   }
 
   addPageControl(pageId, ...args) {
@@ -58,7 +64,7 @@ export default class WizardManager extends Component {
 
   goId(id, cb) {
     if (!id) return;
-    const { currentPageId } = this.state;
+    const {currentPageId} = this.state;
     if (id === this.state.currentPageId) return;
     console.log("going to ", id, "from ", currentPageId);
     if (this.pages.has(id)) {
@@ -82,13 +88,13 @@ export default class WizardManager extends Component {
   }
 
   get currentPage() {
-    const { pages, currentPageId } = this.state;
+    const {pages, currentPageId} = this.state;
     if (!currentPageId) return null;
     return pages.get(currentPageId);
   }
 
   get nextPage() {
-    let currentPage = this.currentPage();
+    let currentPage = this.currentPage;
     if (!currentPage) return null;
     let next = null;
     this.state.pages.forEach((page, id) => {
@@ -153,25 +159,24 @@ export default class WizardManager extends Component {
     if (!control) {
       return null;
     }
-    return control.value;
+    return control.value.toString();
   }
 
-  setFormValue(pageId, controlId, value) {
-    let page = this.pages.get(pageId);
-    if (!page) {
-      return null;
-    }
-    page = page.clone();
-    let control = page.controls.get(controlId);
-    if (!control) {
-      return null;
-    }
-    control = control.clone();
-    control.value = value;
-    page.controls.set(control.id, control);
-    let pages = this.pages;
-    pages.set(page.id, page);
-    this.pages = pages;
+  setFormValue(pageId, controlId, value, cb) {
+    this.setState((state) => {
+      return produce(state, (state) => {
+        let page = state.pages.get(pageId);
+        if (!page) {
+          return state;
+        }
+        let control = page.controls.get(controlId);
+        if (!control) {
+          return state;
+        }
+        control.value = value;
+        return state;
+      })
+    }, cb);
   }
 
   addPage(...args) {
@@ -196,7 +201,7 @@ export default class WizardManager extends Component {
 
     this.setState(
       (state) =>
-        produce(state, ({ pages }) => {
+        produce(state, ({pages}) => {
           pages.set(page.id, page);
         }),
       cb
@@ -205,11 +210,15 @@ export default class WizardManager extends Component {
   }
 
   get pageList() {
-    return sortBy(Array.from(this.pages.values()), "order", "id");
+    const pages = this.pages;
+    const pageList = [];
+    pages.forEach((page) => pageList.push(page));
+    console.log('getting pages === ', pages, pageList);
+    return sortBy(pageList, "order", "id");
   }
 
   componentDidUpdate() {
-    const { pages, currentPageId } = this.state;
+    const {pages, currentPageId} = this.state;
 
     if (!currentPageId && pages.size) {
       this.goFirst();
@@ -229,18 +238,49 @@ export default class WizardManager extends Component {
       if (typeof update === "function") {
         state.pages.set(id, update(page));
       } else if (typeof update === "object") {
-        state.pages.set(id, { ...page, ...update });
+        state.pages.set(id, {...page, ...update});
       }
     }, cb);
   }
 
-  proxy() {
+  get proxy() {
     if (typeof Proxy === 'undefined') {
+      console.log('no proxy - returning immer');
       return produce(this.state, (draft) => {
-        pageList: this.pageList, 
-
+        ALLOWED_PROPERTIES.forEach((pName) => draft[pName] = this[pName]);
+        ALLOWED_FUNCTIONS.forEach((fnName) => draft[fnName] = (...args) => this[fnName](...args))
       })
     }
+
+    return new Proxy(this, {
+      get(target, property) {
+        console.log('------- proxy: getting ', property, 'from', target, 'or', this);
+
+        if (property in target.state) {
+          console.log('returning state property ', target.state[property])
+          return target.state[property];
+        }
+        if (ALLOWED_FUNCTIONS.includes(property)) {
+          console.log('regturning function ', property);
+          return target[property].bind(target);
+        }
+        if (ALLOWED_PROPERTIES.includes(property)) {
+          console.log('returning target property ', target[property])
+          return target[property];
+        }
+      },
+      has(target, property) {
+        return (property in target) || ALLOWED_PROPERTIES.includes(property) || ALLOWED_FUNCTIONS.includes(property);
+      },
+      ownKeys: function (oTarget, sKey) {
+        return [...oTarget.state.keys(), ...ALLOWED_FUNCTIONS, ALLOWED_PROPERTIES];
+      },
+      set(target, property, value,) {
+        if (property in target.state) {
+          target.setState((draft) => draft[property] = value);
+        }
+      }
+    });
   }
 
   render() {
