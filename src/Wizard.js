@@ -16,8 +16,8 @@ const INITIAL = {
   controls: new Map()
 };
 
-const ALLOWED_FUNCTIONS = 'addPage,goNext,goPrev,setPages,getFormValue,setFormValue'.split(',');
-const ALLOWED_PROPERTIES = 'firstPage,prevPage,nextPage,currentPage,pageList'.split(',');
+const ALLOWED_FUNCTIONS = 'addPage,goNext,addPageControl,goToPageId,goPrev,setPages,getFormValue,setFormValue'.split(',');
+const ALLOWED_PROPERTIES = 'pagesYouCanGoTo,firstPage,prevPage,nextPage,currentPage,pageList'.split(',');
 
 export default class WizardManager extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ export default class WizardManager extends Component {
     return first;
   }
 
-  goId(id, cb) {
+  goToPageId(id, cb) {
     if (!id) return;
     const {currentPageId} = this.state;
     if (id === this.state.currentPageId) return;
@@ -76,14 +76,14 @@ export default class WizardManager extends Component {
         cb
       );
     } else {
-      console.log("goId: no id ", id);
+      console.log("goToPageId: no id ", id);
     }
   }
 
   goFirst() {
     let first = this.firstPage;
     if (first) {
-      this.goId(first.id);
+      this.goToPageId(first.id);
     }
   }
 
@@ -98,6 +98,7 @@ export default class WizardManager extends Component {
     if (!currentPage) return null;
     let next = null;
     this.state.pages.forEach((page, id) => {
+      if (page.canGoTo === false) return;
       if (page.order <= currentPage.order) return;
       if (!next || next.order > page.order) next = page;
     });
@@ -109,6 +110,7 @@ export default class WizardManager extends Component {
     if (!currentPage) return null;
     let prev = null;
     this.state.pages.forEach((page, id) => {
+      if (page.canGoTo === false) return;
       if (page.order >= currentPage.order) return;
       if (!prev || prev.order < page.order) prev = page;
     });
@@ -118,7 +120,7 @@ export default class WizardManager extends Component {
   goNext() {
     const nextPage = this.nextPage;
     if (nextPage) {
-      this.goId(nextPage.id);
+      this.goToPageId(nextPage.id);
     } else {
       console.log("cannot go to next page");
     }
@@ -129,7 +131,7 @@ export default class WizardManager extends Component {
     if (!prevPage) {
       console.log("cannot go to prev page");
     } else {
-      this.goId(prevPage.id);
+      this.goToPageId(prevPage.id);
     }
   }
 
@@ -217,6 +219,24 @@ export default class WizardManager extends Component {
     return sortBy(pageList, "order", "id");
   }
 
+  get pagesYouCanGoTo() {
+    let list = this.pageList.filter(page => page.canGoTo !== false);
+    let completed = [];
+    let index = 0;
+    while(list[index] && list[index].isComplete) ++index;
+    const canNav = new Set(list.slice(0, index));
+    if (list[index]) {
+      canNav.add(list[index]);
+    }
+
+    list.forEach(page => {
+      if (page.canGoTo === true) canNav.add(page.canGoTo)
+    })
+
+    console.log('of ', this.pageList, 'completed: ', completed, 'canNav', canNav);
+    return [...canNav];
+  }
+
   componentDidUpdate() {
     const {pages, currentPageId} = this.state;
 
@@ -228,12 +248,14 @@ export default class WizardManager extends Component {
   updatePage(id, update, cb) {
     if (!update) {
       console.log("updatePage: no update", id, update);
+      return;
     }
+
     this.setState((state) => {
       let page = state.pages.get(id);
       if (!page) {
         console.log("updatePage: no page ", id, update);
-        return;
+        return cb ? cb(false): null;
       }
       if (typeof update === "function") {
         state.pages.set(id, update(page));
@@ -254,18 +276,13 @@ export default class WizardManager extends Component {
 
     return new Proxy(this, {
       get(target, property) {
-        console.log('------- proxy: getting ', property, 'from', target, 'or', this);
-
         if (property in target.state) {
-          console.log('returning state property ', target.state[property])
           return target.state[property];
         }
         if (ALLOWED_FUNCTIONS.includes(property)) {
-          console.log('regturning function ', property);
           return target[property].bind(target);
         }
         if (ALLOWED_PROPERTIES.includes(property)) {
-          console.log('returning target property ', target[property])
           return target[property];
         }
       },

@@ -1,29 +1,40 @@
-import React, { useState, useEffecct, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ControlInput from "../ControlInput";
+import styled from "styled-components";
+
+
+const Page = styled.div`
+  grid-row-start: row-content-start;
+  grid-row-end: row-foot-start;
+  grid-column-start: col-content-start;
+  grid-column-end: cal-footer-start;
+  background-color: pink;
+`;
+
 export default ({ page }) => {
   if (!page) {
     return "";
   }
-  const controls = [...page.controls.values()];
-
+  const {controls, title } = page;
   return (
-    <div>
-      <h1>{page.title}</h1>
-      <p>Page View</p>
+    <Page>
       <table>
         <tbody>
-          {controls.map((control) => {
+          {[...controls.values()].map((control) => {
             return (
-              <tr>
-                <td>{control.title}</td>
+              <tr key={control.id}>
+                <td>{control.label}</td>
                 <td>
                   <ControlInput page={page} control={control} />
+                </td>
+                <td>
+                  {control.required ? '* required' : ''}
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-    </div>
+    </Page>
   );
 };
