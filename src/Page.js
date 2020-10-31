@@ -1,57 +1,66 @@
-import {immerable} from "immer"
+import { immerable } from 'immer';
 
 export default class Page {
   [immerable] = true
 
   constructor(id, title, {
-    order: order = null,
-    controls: controls = [],
-    parent: parent = null,
-    completeCrit: completeCrit = false,
-    canGoTo: canGoTo = null,
-  }) {
+    order = null,
+    data = [],
+    parent = null,
+    isComplete = null,
+    canGoTo = null,
+    View = null,
+    state = {},
+  } = {}) {
     this._id = id;
     this.title = title;
     this.order = order;
-    this.controls = controls;
+    this.data = data;
     this.parent = parent;
-    this.completeCrit = completeCrit;
-    this.canGoTo = canGoTo
+    this.isComplete = isComplete;
+    this.canGoTo = canGoTo;
+    this.View = View;
+    this.state = state;
   }
 
   get id() {
     return this._id;
   }
 
-  set controls(newControls) {
-    if (Array.isArray(newControls)) {
-      let map = new Map();
-      newControls.forEach(c => map.set(c.id, c));
-      this._controls = map;
+  set data(dataMap) {
+    if (Array.isArray(dataMap)) {
+      const map = new Map();
+      dataMap.forEach((c) => map.set(c.id, c));
+      this._data = map;
     }
-    if (newControls instanceof Map) {
-      this._controls = newControls;
+    if (dataMap instanceof Map) {
+      this._data = dataMap;
     }
   }
 
-  get controls() {
-    if (!this._controls) this._controls = new Map();
-    return this._controls;
+  get data() {
+    if (!this._data) this._data = new Map();
+    return this._data;
   }
 
   get isComplete() {
-    if (this.completeCrit) {
-      return this.completeCrit(this);
+    if (this._isComplete !== null) {
+      if (typeof this._isComplete === 'function') return this._isComplete(this);
+      return this._isComplete;
     }
 
     let complete = true;
-    this.controls.forEach((control) => {
+    this.data.forEach((control) => {
       if (!complete) return;
       if (!control.hasValidValue) {
         complete = false;
       }
     });
     return complete;
+  }
+
+  set isComplete(value) {
+    this._isComplete = value;
   }
 
   /**

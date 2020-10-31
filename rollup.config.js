@@ -15,6 +15,14 @@ module.exports = {
     babel({
       exclude: 'node_modules/**',
       presets: ['@babel/env', '@babel/preset-react'],
+      plugins: [
+        [
+          '@babel/plugin-proposal-class-properties',
+          {
+            loose: true,
+          },
+        ],
+      ],
     }),
     commonjs({
       namedExports: {

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e6d914dd-f3ed-4d5f-93af-5b3acdaec4e3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../src/WizardController/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.gitdocs.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitdocs.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/rollup-react.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/rollup-react.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/../CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/docs/components/alpha.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/components/alpha.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/documentation.js" beforeDir="false" afterPath="$PROJECT_DIR$/../documentation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/rollup.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../rollup.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/Control.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/Data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/ControlInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/DataInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/Page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/Wizard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/WizardContext.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/WizardController/DefaultView.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/WizardController/Navigation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/WizardController/PageView.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/WizardController/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/src/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/test/Alpha.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/../test/Alpha.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/yarn-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/../yarn-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../rollup/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/Control.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/ControlInput.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/Page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/Wizard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/Wizard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/WizardContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardController/DefaultView.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/WizardController/DefaultView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardController/Navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/WizardController/Navigation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardController/PageView.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/WizardController/PageView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardController/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/WizardController/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/WizardView/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/styles.css" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jeJDuJFO4h02D37Pb77wmuNOoe" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.npm start">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration name="npm start" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e6d914dd-f3ed-4d5f-93af-5b3acdaec4e3" name="Default Changelist" comment="" />
+      <created>1604158508331</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604158508331</updated>
+      <workItem from="1604158509822" duration="1376000" />
+      <workItem from="1604160299195" duration="1871000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1318" y="424" key="SettingsEditor" timestamp="1604161270132">
+      <screen x="0" y="23" width="3008" height="1589" />
+    </state>
+    <state x="1318" y="424" key="SettingsEditor/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604161270132" />
+  </component>
+</project>

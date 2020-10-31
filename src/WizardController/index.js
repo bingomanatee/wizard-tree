@@ -1,8 +1,10 @@
-import React, {useState, useEffecct, useContext, useEffect} from "react";
+import React, {
+  useState, useEffecct, useContext, useEffect,
+} from 'react';
 import styled from 'styled-components';
-import Control from "../Control";
-import PageView from "./PageView";
-import WizardContext from "../WizardContext";
+import Data from '../Data';
+import PageView from './PageView';
+import WizardContext from '../WizardContext';
 import Navigation from './Navigation';
 
 const Layout = styled.article`
@@ -27,7 +29,7 @@ font-size: 1.5em;
 padding: 0;
 margin: 1rem 2rem;
 }
-`
+`;
 
 const Foot = styled.footer`
 grid-column-start: 2;
@@ -38,46 +40,48 @@ display: flex;
 flex-direction: row;
 justify-content: space-around;
 align-items: center;
-`
+`;
 
 export default ({}) => {
   const wizardContext = useContext(WizardContext);
 
   useEffect(() => {
-    console.log("wizardContext: ", wizardContext);
+    console.log('wizardContext: ', wizardContext);
   }, [wizardContext]);
 
   useEffect(() => {
-    wizardContext.addPage("first", "First Page", {
+    wizardContext.addPage('first', 'First Page', {
       order: 1,
-      controls: [ new Control("name", "User Name", '', {required: true} )]
+      controls: [new Data('name', 'User Name', '', { required: true })],
     });
-    wizardContext.addPage("next", "Section", {
+    wizardContext.addPage('next', 'Section', {
       order: 2,
-      canGoTo: false
+      canGoTo: false,
     });
     wizardContext.addPage(
-      "the one where Rachel marries Ross",
-      "Friends Page",
+      'the one where Rachel marries Ross',
+      'Friends Page',
       {
         order: 3,
         parent: 'next',
-        controls: [new Control('alpha', 'Alpha Field'), new Control('beta', 'Beta Field', '', {required: true})]
-      }
+        controls: [new Data('alpha', 'Alpha Field'), new Data('beta', 'Beta Field', '', { required: true })],
+      },
     );
-    wizardContext.addPage("last", "Last Page", {
+    wizardContext.addPage('last', 'Last Page', {
       order: 4,
-      controls: [new Control('delta', 'Delta Field', '', {required: true}), new Control('omega', 'Omega Field')]
+      controls: [new Data('delta', 'Delta Field', '', { required: true }), new Data('omega', 'Omega Field')],
     });
 
-    wizardContext.addPage('summary', 'Summary', {order: 5})
+    wizardContext.addPage('summary', 'Summary', { order: 5 });
   }, []);
 
-  if (!wizardContext) return "";
+  if (!wizardContext) return '';
 
-  const {prevPage, nextPage, currentPageId, goToPageId, currentPage} = wizardContext;
+  const {
+    prevPage, nextPage, goToPageId, currentPage,
+  } = wizardContext;
   if (!currentPage) return '';
-  const  View = currentPage.View || PageView;
+  const View = currentPage.View || PageView;
 
   return (
     <Layout>
@@ -85,11 +89,11 @@ export default ({}) => {
         <h1>The Great Tree of Wizards! </h1>
         <h2>{currentPage.title}</h2>
       </Head>
-      <Navigation goToPageId={goToPageId}/>
-      <View page={currentPage}/>
+      <Navigation goToPageId={goToPageId} />
+      <View page={currentPage} />
       <Foot>
-        <div>{prevPage && "previous: " + prevPage.id}</div>
-        <div>{nextPage && "next: " + nextPage.id}</div>
+        <div>{prevPage && `previous: ${prevPage.id}`}</div>
+        <div>{nextPage && `next: ${nextPage.id}`}</div>
         {prevPage && <button onClick={wizardContext.goPrev}>Prev</button>}
         {nextPage && (
           <button onClick={wizardContext.goNext}>Next</button>

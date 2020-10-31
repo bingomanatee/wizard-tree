@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import ControlInput from "../ControlInput";
-import styled from "styled-components";
-
+import React, { useState, useContext, useEffect } from 'react';
+import styled from 'styled-components';
+import ControlInput from '../DataInput';
 
 const Page = styled.div`
   grid-row-start: row-content-start;
@@ -13,26 +12,26 @@ const Page = styled.div`
 
 export default ({ page }) => {
   if (!page) {
-    return "";
+    return '';
   }
-  const {controls, title } = page;
+  const { controls, title } = page;
   return (
     <Page>
       <table>
         <tbody>
-          {[...controls.values()].map((control) => {
-            return (
-              <tr key={control.id}>
-                <td>{control.label}</td>
-                <td>
-                  <ControlInput page={page} control={control} />
-                </td>
-                <td>
-                  {control.required ? '* required' : ''}
-                </td>
-              </tr>
-            );
-          })}
+          {[...controls.values()].map((control) => (
+            <tr key={control.id}>
+              <td>
+                {control.label}
+              </td>
+              <td>
+                <ControlInput page={page} control={control} />
+              </td>
+              <td>
+                {control.required ? '* required' : ''}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Page>

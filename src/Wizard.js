@@ -1,42 +1,43 @@
-import React, {Component} from "react";
-import Page from "./Page";
-import Control from "./Control";
-import sortBy from "lodash.sortby";
-import WizardContext from "./WizardContext";
-import isEqual from "lodash.isequal";
-import produce, {enableMapSet, enableES5} from "immer";
+/* eslint-disable no-console */
+import React, { Component } from 'react';
+import sortBy from 'lodash.sortby';
+import produce, { enableMapSet, enableES5 } from 'immer';
+import Page from './Page';
+import Data from './Data';
+import WizardContext from './WizardContext';
 
 enableMapSet();
 enableES5();
 
 const INITIAL = {
-  title: "wizard",
+  title: 'wizard',
   pages: new Map(),
   currentPageId: null,
-  controls: new Map()
+  data: new Map(),
 };
 
-const ALLOWED_FUNCTIONS = 'addPage,goNext,addPageControl,goToPageId,goPrev,setPages,getFormValue,setFormValue'.split(',');
+const ALLOWED_FUNCTIONS = `getPageState,setPageState,getDataState,setDataState,addPage,addPages,goNext,${
+  'addPageData,goToPageId,goPrev,setPages,getDataValue,setDataValue'.split(',')}`;
 const ALLOWED_PROPERTIES = 'pagesYouCanGoTo,firstPage,prevPage,nextPage,currentPage,pageList'.split(',');
 
 export default class WizardManager extends Component {
   constructor(props) {
     super(props);
-    this.state = produce(INITIAL, (draft) => {
+    this.state = produce(INITIAL, () => {
     });
   }
 
-  addPageControl(pageId, ...args) {
+  addPageData(pageId, ...args) {
     let page = this.pages.get(pageId);
     if (!page) {
-      console.log("cannot find a page", pageId);
+      console.log('cannot find a page', pageId);
       return;
     }
     page = page.clone();
-    let control = new Control(...args);
-    if (control.id) {
-      page.controls.set(control.id, control);
-      let pages = this.pages;
+    const data = new Data(...args);
+    if (data.id) {
+      page.data.set(data.id, data);
+      const { pages } = this;
       pages.set(page.id, page);
       this.pages = pages;
     }
@@ -44,14 +45,14 @@ export default class WizardManager extends Component {
 
   get firstPage() {
     let first = null;
-    this.pages.forEach((page, id) => {
+    this.pages.forEach((page) => {
       console.log(
-        "first",
+        'first',
         first && first.id,
         first && first.order,
-        "page: ",
+        'page: ',
         page.id,
-        page.order
+        page.order,
       );
       if (!first) first = page;
       else if (first.order > page.order) {
@@ -64,40 +65,39 @@ export default class WizardManager extends Component {
 
   goToPageId(id, cb) {
     if (!id) return;
-    const {currentPageId} = this.state;
+    const { currentPageId } = this.state;
     if (id === this.state.currentPageId) return;
-    console.log("going to ", id, "from ", currentPageId);
+    console.log('going to ', id, 'from ', currentPageId);
     if (this.pages.has(id)) {
       this.setState(
-        (state) =>
-          produce(state, (draft) => {
-            draft.currentPageId = id;
-          }),
-        cb
+        (state) => produce(state, (draft) => {
+          draft.currentPageId = id;
+        }),
+        cb,
       );
     } else {
-      console.log("goToPageId: no id ", id);
+      console.log('goToPageId: no id ', id);
     }
   }
 
   goFirst() {
-    let first = this.firstPage;
+    const first = this.firstPage;
     if (first) {
       this.goToPageId(first.id);
     }
   }
 
   get currentPage() {
-    const {pages, currentPageId} = this.state;
+    const { pages, currentPageId } = this.state;
     if (!currentPageId) return null;
     return pages.get(currentPageId);
   }
 
   get nextPage() {
-    let currentPage = this.currentPage;
+    const { currentPage } = this;
     if (!currentPage) return null;
     let next = null;
-    this.state.pages.forEach((page, id) => {
+    this.state.pages.forEach((page) => {
       if (page.canGoTo === false) return;
       if (page.order <= currentPage.order) return;
       if (!next || next.order > page.order) next = page;
@@ -106,10 +106,10 @@ export default class WizardManager extends Component {
   }
 
   get prevPage() {
-    let currentPage = this.currentPage;
+    const { currentPage } = this;
     if (!currentPage) return null;
     let prev = null;
-    this.state.pages.forEach((page, id) => {
+    this.state.pages.forEach((page) => {
       if (page.canGoTo === false) return;
       if (page.order >= currentPage.order) return;
       if (!prev || prev.order < page.order) prev = page;
@@ -118,18 +118,18 @@ export default class WizardManager extends Component {
   }
 
   goNext() {
-    const nextPage = this.nextPage;
+    const { nextPage } = this;
     if (nextPage) {
       this.goToPageId(nextPage.id);
     } else {
-      console.log("cannot go to next page");
+      console.log('cannot go to next page');
     }
   }
 
   goPrev() {
-    const prevPage = this.prevPage;
+    const { prevPage } = this;
     if (!prevPage) {
-      console.log("cannot go to prev page");
+      console.log('cannot go to prev page');
     } else {
       this.goToPageId(prevPage.id);
     }
@@ -140,54 +140,47 @@ export default class WizardManager extends Component {
   }
 
   set pages(pages) {
-    this.setState(produce(this.state, (draft) => (draft.pages = pages)));
+    this.setPages(pages);
   }
 
   setPages(pages, cb) {
-    this.setState(
-      produce(this.state, (draft) => {
-        draft.pages = pages;
-      }),
-      cb
-    );
+    this.setState((state) => produce(state, (draft) => {
+      draft.pages = pages;
+    }), cb);
   }
 
-  getFormValue(pageId, controlId) {
-    let page = this.pages.get(pageId);
+  getDataValue(pageId, dataId) {
+    const page = this.pages.get(pageId);
     if (!page) {
       return null;
     }
-    let control = page.controls.get(controlId);
-    if (!control) {
+    const data = page.data.get(dataId);
+    if (!data) {
       return null;
     }
-    return control.value.toString();
+    return data.value;
   }
 
-  setFormValue(pageId, controlId, value, cb) {
-    this.setState((state) => {
-      return produce(state, (state) => {
-        let page = state.pages.get(pageId);
-        if (!page) {
-          return state;
-        }
-        let control = page.controls.get(controlId);
-        if (!control) {
-          return state;
-        }
-        control.value = value;
-        return state;
-      })
-    }, cb);
+  setDataValue(pageId, dataId, value, cb) {
+    this.setState((state) => produce(state, (draft) => {
+      const page = draft.pages.get(pageId);
+      if (!page) {
+        return draft;
+      }
+      const data = page.data.get(dataId);
+      if (!data) {
+        return draft;
+      }
+      data.value = value;
+      return draft;
+    }), cb);
   }
 
-  addPage(...args) {
-    let cb = null;
-    if (typeof args[args.length - 1] === "function") cb = args.pop();
-
+  _makePage(...args) {
+    if (args[0] instanceof Page) return args[0];
     const page = new Page(...args);
     if (!page.id) {
-      console.log("cannot add page without id:", page);
+      console.log('cannot add page without id:', page);
       return;
     }
 
@@ -201,66 +194,163 @@ export default class WizardManager extends Component {
       page.order += 1;
     }
 
+    return page;
+  }
+
+  addPage(...args) {
+    let cb = null;
+    if (typeof args[args.length - 1] === 'function') cb = args.pop();
+
+    const page = this._makePage(...args);
+
     this.setState(
-      (state) =>
-        produce(state, ({pages}) => {
-          pages.set(page.id, page);
-        }),
-      cb
+      (state) => produce(state, ({ pages }) => {
+        pages.set(page.id, page);
+      }),
+      cb,
     );
     // @TODO: check for duplicate orders and IDs
   }
 
-  get pageList() {
-    const pages = this.pages;
-    const pageList = [];
-    pages.forEach((page) => pageList.push(page));
-    console.log('getting pages === ', pages, pageList);
-    return sortBy(pageList, "order", "id");
+  addPages(pages, cb) {
+    let { state } = this;
+    pages.forEach((page) => {
+      const newPage = this._makePage(page);
+      state = produce(state, (draft) => {
+        draft.pages.set(newPage.id, newPage);
+      });
+    });
+    this.setState(state, cb);
   }
 
+  get pageList() {
+    const { pages } = this;
+    const pageList = [];
+    pages.forEach((page) => pageList.push(page));
+    return sortBy(pageList, 'order', 'id');
+  }
+
+  /**
+   * this is a gnarly computation and you are more than welcome
+   * to not use it in your navigation.
+   *
+   * The theory is this:
+   * 1. exclude pages you cannot go to
+   * 2. get a contiguous list of all the remaining complete pages -- from the first one
+   *    to the last complete page
+   * 3. Add the next page (done with page B, C is accessible)
+   * 4. Add all the pages that have been manually targeted as reachable
+   *
+   * again - you might have a different navigation scheme in mind but this one
+   * is a sensible norm.
+   *
+   * @returns {Pages[]}
+   */
   get pagesYouCanGoTo() {
-    let list = this.pageList.filter(page => page.canGoTo !== false);
-    let completed = [];
+    // step 1: exclude unGoable
+    const list = this.pageList.filter((page) => page.canGoTo !== false);
+    const canNav = new Set();
+    // step 2: contiguous completed
     let index = 0;
-    while(list[index] && list[index].isComplete) ++index;
-    const canNav = new Set(list.slice(0, index));
+    while (list[index] && list[index].isComplete) {
+      canNav.add(list[index]);
+      index += 1;
+    }
+
+    // step 3: first next page
     if (list[index]) {
       canNav.add(list[index]);
     }
 
-    list.forEach(page => {
-      if (page.canGoTo === true) canNav.add(page.canGoTo)
-    })
+    // step 4
+    list.forEach((page) => {
+      if (page.canGoTo === true) canNav.add(page.canGoTo);
+    });
 
-    console.log('of ', this.pageList, 'completed: ', completed, 'canNav', canNav);
-    return [...canNav];
+    // return as ordered array
+    return sortBy([...canNav], 'order');
   }
 
   componentDidUpdate() {
-    const {pages, currentPageId} = this.state;
+    const { pages, currentPageId } = this.state;
 
     if (!currentPageId && pages.size) {
-      this.goFirst();
+      this.goFirst(true);
     }
   }
 
-  updatePage(id, update, cb) {
+  updatePage(pageId, update, cb) {
     if (!update) {
-      console.log("updatePage: no update", id, update);
+      console.log('updatePage: no update', pageId, update);
       return;
     }
 
-    this.setState((state) => {
-      let page = state.pages.get(id);
+    // eslint-disable-next-line consistent-return
+    this.setState((state) => produce(state, (draft) => {
+      const page = draft.pages.get(pageId);
       if (!page) {
-        console.log("updatePage: no page ", id, update);
-        return cb ? cb(false): null;
+        console.log('updatePage: no page ', pageId, update);
+        return;
       }
-      if (typeof update === "function") {
-        state.pages.set(id, update(page));
-      } else if (typeof update === "object") {
-        state.pages.set(id, {...page, ...update});
+      if (typeof update === 'function') {
+        draft.pages.set(pageId, update(page));
+      } else if (typeof update === 'object') {
+        draft.pages.set(pageId, Object.assign(page, update));
+      }
+    }), cb);
+  }
+
+  getPageState(pageId, stateName) {
+    if (!pageId || !stateName) {
+      console.log('getPageState requires pageId and stateName: given', pageId, stateName);
+      return null;
+    }
+    const page = this.pages.get(pageId);
+    if (page) {
+      return page.state[stateName];
+    }
+    console.log('cannot find page ', pageId);
+    return null;
+  }
+
+  setPageState(pageId, stateName, stateValue, cb) {
+    if (!pageId || !stateName) {
+      console.log('setPageState requires pageId and stateName: given', pageId, stateName);
+      return null;
+    }
+    return this.updatePage(pageId, (page) => {
+      page.state[stateName] = stateValue;
+    }, cb);
+  }
+
+  getDataState(pageId, dataId, stateName) {
+    if (!dataId || !pageId || !stateName) {
+      console.log('getDatatate requires pageId, dataId and stateName: given', pageId, dataId, stateName);
+      return null;
+    }
+    const page = this.pages.get(pageId);
+    if (page) {
+      const data = page.data.get(dataId);
+      if (data) {
+        return data.state[stateName];
+      }
+    }
+    console.log('cannot find page data', pageId, dataId);
+    return null;
+  }
+
+  setDatatate(pageId, dataId, stateName, value, cb) {
+    if (!dataId || !pageId || !stateName) {
+      console.log('setDatatate requires pageId, dataId and stateName: given', pageId, dataId, stateName);
+      return null;
+    }
+
+    return this.updatePage(pageId, (page) => {
+      if (page) {
+        const data = page.data.get(dataId);
+        if (data) {
+          data.state[stateName] = value;
+        }
       }
     }, cb);
   }
@@ -269,9 +359,13 @@ export default class WizardManager extends Component {
     if (typeof Proxy === 'undefined') {
       console.log('no proxy - returning immer');
       return produce(this.state, (draft) => {
-        ALLOWED_PROPERTIES.forEach((pName) => draft[pName] = this[pName]);
-        ALLOWED_FUNCTIONS.forEach((fnName) => draft[fnName] = (...args) => this[fnName](...args))
-      })
+        ALLOWED_PROPERTIES.forEach((pName) => {
+          draft[pName] = this[pName];
+        });
+        ALLOWED_FUNCTIONS.forEach((fnName) => {
+          draft[fnName] = (...args) => this[fnName](...args);
+        });
+      });
     }
 
     return new Proxy(this, {
@@ -285,18 +379,19 @@ export default class WizardManager extends Component {
         if (ALLOWED_PROPERTIES.includes(property)) {
           return target[property];
         }
+        return null;
       },
       has(target, property) {
-        return (property in target) || ALLOWED_PROPERTIES.includes(property) || ALLOWED_FUNCTIONS.includes(property);
+        // eslint-disable-next-line max-len
+        return (property in target.state) || ALLOWED_PROPERTIES.includes(property) || ALLOWED_FUNCTIONS.includes(property);
       },
-      ownKeys: function (oTarget, sKey) {
-        return [...oTarget.state.keys(), ...ALLOWED_FUNCTIONS, ALLOWED_PROPERTIES];
-      },
-      set(target, property, value,) {
+      set(target, property, value) {
         if (property in target.state) {
           target.setState((draft) => draft[property] = value);
+        } else {
+          console.log('attempt to set read-only property', property, 'to', value);
         }
-      }
+      },
     });
   }
 

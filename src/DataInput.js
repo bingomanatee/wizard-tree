@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import WizardContext from './WizardContext';
 
-export default ({ page, control }) => {
-  const [value, setValue] = useState(control ? control.value : '');
+export default ({ page, data }) => {
+  const [value, setValue] = useState(data ? data.value : '');
   const context = useContext(WizardContext);
   useEffect(() => {
-    const cValue = context.getFormValue(page.id, control.id);
+    const cValue = context.getDataValue(page.id, data.id);
     if (value !== cValue) {
-      context.setFormValue(page.id, control.id, value);
+      context.setDataValue(page.id, data.id, value);
     }
   }, [value]);
   // to synchronize
