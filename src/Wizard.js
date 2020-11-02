@@ -97,7 +97,7 @@ export default class WizardManager extends Component {
     const { currentPage } = this;
     if (!currentPage) return null;
     let next = null;
-    this.state.pages.forEach((page) => {
+    this.pages.forEach((page) => {
       if (page.canGoTo === false) return;
       if (page.order <= currentPage.order) return;
       if (!next || next.order > page.order) next = page;
@@ -119,6 +119,7 @@ export default class WizardManager extends Component {
 
   goNext() {
     const { nextPage } = this;
+    console.log('goNext: from ', this.state.currentPageId, 'to', nextPage)
     if (nextPage) {
       this.goToPageId(nextPage.id);
     } else {
@@ -205,6 +206,7 @@ export default class WizardManager extends Component {
 
     this.setState(
       (state) => produce(state, ({ pages }) => {
+        this._orderPageControls(page);
         pages.set(page.id, page);
       }),
       cb,
@@ -213,14 +215,32 @@ export default class WizardManager extends Component {
   }
 
   addPages(pages, cb) {
-    let { state } = this;
-    pages.forEach((page) => {
-      const newPage = this._makePage(page);
-      state = produce(state, (draft) => {
+    this.setState((state) => produce((draft) => {
+      pages.forEach((page) => {
+        const newPage = this._makePage(page);
+        this._orderPageControls(newPage);
         draft.pages.set(newPage.id, newPage);
       });
+    }), cb);
+  }
+
+  _orderPageControls(page) {
+    let currentOrder = 0;
+    // do our best to number data that have not been ordered
+    page.data.forEach((data) => {
+      if (data.order === null) {
+        data.order = currentOrder;
+        currentOrder += 1;
+      } else {
+        currentOrder = Math.max(data.order, currentOrder) + 1;
+      }
     });
-    this.setState(state, cb);
+
+    // re-order data sequentially
+
+    sortBy([...page.data.values()], 'order').forEach((data, order) => {
+      data.order = order;
+    });
   }
 
   get pageList() {

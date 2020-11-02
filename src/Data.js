@@ -7,10 +7,12 @@ export default class Data {
     validator = false,
     required = false,
     Input = null,
+    order = null,
     state = {},
   } = {}) {
     this._id = id;
     this.label = label;
+    this.order = order;
     this.value = value;
     this.required = required;
     this.validator = (typeof validator === 'function') ? validator : false;

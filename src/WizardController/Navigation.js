@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import sortBy from 'lodash.sortby';
 import styled from 'styled-components';
-import WizardContext from '../WizardContext';
+import { WizardContext } from '@wonderlandlabs/react-wizard';
 
 const TreeRoot = styled.ul`
 margin: 0;
@@ -27,13 +26,14 @@ const Title = ({ canGoTo, onClick, page }) => (
 );
 
 const Tree = ({ pagesYouCanGoToIDs, root }) => {
-  const { pageList, goToPageId } = useContext(WizardContext);
+  const { pageList, goToPageId, pages } = useContext(WizardContext);
+  const childPages = [...pages.values()].filter((page) => (root ? page.parent === root : !page.parent));
+  console.log('root:', root, 'pages', childPages.map(page => page.title ))
 
-  const myPages = pageList.filter((page) => (root ? page.parent === root : !page.parent));
-  if (!myPages.length) return '';
+  if (!childPages.length) return '';
   return (
     <TreeRoot>
-      {myPages.map((page) => {
+      {childPages.map((page) => {
         const canGoTo = pagesYouCanGoToIDs.includes(page.id);
         const onClick = (e) => {
           e.preventDefault();
@@ -64,7 +64,7 @@ background-color: aqua;
 export default () => {
   const wizardContext = useContext(WizardContext);
   const {
-    pageList, currentPage, goToPageId, pagesYouCanGoTo,
+    pageList, currentPage, pagesYouCanGoTo,
   } = wizardContext;
 
   if (!(pageList && currentPage)) return null;

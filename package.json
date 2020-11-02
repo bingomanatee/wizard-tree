@@ -1,6 +1,6 @@
 {
   "name": "@wonderlandlabs/react-wizard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A starter for making a react component",
   "main": "lib/index.js",
   "module": "es/index.js",
