@@ -6,7 +6,15 @@ import React, {
 import produce, { enableMapSet, enableES5 } from 'immer';
 import WizardContext from './WizardContext';
 import wizardReducer, {
-  currentPage, firstPage, lastPage, nextPage, pageList, prevPage, reducerActions, getDataValue, pagesYouCanGoTo,
+  currentPage,
+  firstPage,
+  lastPage,
+  nextPage,
+  pageList,
+  prevPage,
+  getDataValue,
+  pagesYouCanGoTo,
+  dispatchedActions,
 } from './actions';
 
 enableMapSet();
@@ -20,24 +28,18 @@ const INITIAL = {
 };
 
 export default (props) => {
+  // -- the initial state is optionally enhanced by the Wizard props' values on load
+  // -- subsequent to the first load, use methods of the context to update.
   const [state, dispatch] = useReducer(wizardReducer, produce(INITIAL, (draft) => {
-    Object.keys(INITIAL).forEach((prop) => {
-      if (prop in props) {
-        draft[prop] = props[prop];
-      }
-    });
+    Object.keys(INITIAL)
+      .forEach((prop) => {
+        if (prop in props) {
+          draft[prop] = props[prop];
+        }
+      });
   }));
 
-  console.log('WizardReducer: state = ', state);
-
-  const [actions] = useState(
-    // eslint-disable-next-line arrow-body-style
-    Object.keys(reducerActions).reduce((newActions, action) => {
-      return ({ ...newActions, [action]: (...args) => dispatch({ action, args }) });
-    }, {}),
-  );
-
-  console.log('WizardReducer: actions = ', actions);
+  const [actions] = useState(dispatchedActions(dispatch));
 
   const [current, setCurrent] = useState(null);
   const [prev, setPrev] = useState(null);
@@ -47,13 +49,23 @@ export default (props) => {
   const [list, setList] = useState([]);
   const [youCanGoTo, setYouCanGoTo] = useState([]);
 
-  setFirst(firstPage(state));
-  setLast(lastPage(state));
-  setList(pageList(state));
-  setYouCanGoTo(pagesYouCanGoTo(state));
-  setCurrent(currentPage(state));
-  setNext(nextPage(state));
-  setPrev(prevPage(state));
+  /* ---------------- DERIVED VALUES ------------------- */
+
+  useEffect(() => {
+    setList(pageList(state));
+    setYouCanGoTo(pagesYouCanGoTo(state));
+  }, [state.pages]);
+
+  useEffect(() => {
+    setFirst(firstPage(state));
+    setLast(lastPage(state));
+    setNext(nextPage(state));
+    setPrev(prevPage(state));
+  }, [list]);
+
+  useEffect(() => {
+    setCurrent(currentPage(state));
+  }, [state.currentPageId, state.pages]);
 
   return (
     <WizardContext.Provider value={{
@@ -71,12 +83,8 @@ export default (props) => {
       getDataValue: getDataValue(state),
     }}
     >
+      {/* eslint-disable-next-line react/prop-types */}
       {props.children}
     </WizardContext.Provider>
-
   );
-/*
-  return <WizardContext.Provider value={INITIAL}>
-  {props.children}
-    </WizardContext.Provider> */
 };

@@ -88,8 +88,10 @@ but if you want to expand the dataler you'll have to read the immer docs to lear
 
 ### Page Fields and Organization
 
-Pages can be a flat list, or heirarchical. You can create "unvisitable" page groups by flagging the canGoTo property
-to false. 
+Pages can be a flat list, or a tree. to "tree" a Page, set their parent ID to that of another Pgae.
+
+You can create "unvisitable" page groups by flagging the canGoTo property to false. This doesn't affect goNext or goPrev,
+but will affect the pages' appearance in the `pagesICanGoTo` list. 
 
 The most important properties are:
 
@@ -112,4 +114,32 @@ isComplete{boolean/function} -- if not set, it is the summation of the completen
                                of all the data; or if none exist is true. 
                                You can set this is a function that is only true if the 
                                data are 
+```
+
+### Actions
+
+Wizard has an intenral reducer. Here are the actions you can use to 
+update state:
+
+```
+addPage(Page or ...constructor fields of page) 
+   adds a page to the pages Map
+addPages([Page...]) or (Page, Page...Page)
+   adds multiple pages to a wizard. Unlike addPage, 
+   the items in the argument list must be Page instances
+addPageData(pageId, Data) or (pageId, .... constructor fields of Data)
+   adds a data item to a Page
+setDataValue(pageId, dataId, value)
+   set a data value; used to update data from form fields
+goToPageId(pageId) navigate to a page; ignores canGoTo. 
+goFirst()
+goLast()
+goPrev(goable): 
+    if goable is true goes to the previous page for which canGoTo !== false. 
+    Otherwise goes back, regardless of the previous pages state. 
+goNext(goable)
+setPageProp(pageId, field, value): updates any field of a page (except id). 
+setPageStateField(pageId, field, value): updates/sets a field in a pages' state
+setPageDataProp(pageId, field, value): updates any field on a pages' data item (except id);
+setPageDataStateField(pageId, dataId, field, value): updates/sets a field in a pages' data's state.
 ```

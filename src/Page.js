@@ -43,6 +43,16 @@ export default class Page {
     return this._data;
   }
 
+  /**
+   * isComplete is true if there are no REQUIRED data items that do not have a valid value.
+   * so, a page with no data is always complete.
+   * As is a page with no REQUIRED data.
+   *
+   * If you have a more complicated definition of whether or not a page is complete,
+   * you can manually set the complete status of a page externally.
+   *
+   * @returns {boolean|*}
+   */
   get isComplete() {
     if (this._isComplete !== null) {
       if (typeof this._isComplete === 'function') return this._isComplete(this);
@@ -52,7 +62,7 @@ export default class Page {
     let complete = true;
     this.data.forEach((control) => {
       if (!complete) return;
-      if (!control.hasValidValue) {
+      if (control.required && !control.hasValidValue) {
         complete = false;
       }
     });
@@ -64,10 +74,13 @@ export default class Page {
   }
 
   /**
-   * note - default canGoTo === null; meaning page has no special
-   * opinion as to whether or not to navigate to it.
+   * note - default canGoTo === null; meaning page has no special opinion as to whether or not to navigate to it.
    * If set to True or False, page will always (or never) be clickable/navicable to.
-   * @returns {*}
+   *
+   * note - if you need to change canGoTo based on external conditions, i.e., files loaded, api response,
+   * its best NOT to put a function into canGoTo, but rather to update it with a scalar externally.
+   *
+   * @returns {true, false, or null}
    */
   get canGoTo() {
     if (typeof this._canGoTo === 'function') {
