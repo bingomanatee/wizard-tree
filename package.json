@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "immer": "7.0.14",
+    "lodash.flattendeep": "^4.4.0",
     "lodash.isequal": "^4.5.0",
     "lodash.sortby": "4.7.0",
     "prop-types": "^15.7.2"
