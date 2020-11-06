@@ -20,16 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4eae06f-f188-4e3f-8e96-6c8d429ce774" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/old/Wizard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Wizard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Wizard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/WizardReducer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +29,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Rebase.Settings">
-    <option name="OPTIONS">
-      <set>
-        <option value="INTERACTIVE" />
-      </set>
-    </option>
     <option name="NEW_BASE" value="main" />
   </component>
   <component name="Git.Settings">
@@ -85,21 +72,6 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -111,7 +83,8 @@
       <workItem from="1604356607755" duration="1224000" />
       <workItem from="1604366459393" duration="978000" />
       <workItem from="1604421605902" duration="14202000" />
-      <workItem from="1604513764507" duration="6682000" />
+      <workItem from="1604513764507" duration="8460000" />
+      <workItem from="1604598452087" duration="1496000" />
     </task>
     <task id="LOCAL-00001" summary="using a react reducer hook to control state">
       <created>1604513969153</created>
@@ -120,7 +93,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604513969153</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="using a react reducer hook to control state; added actions for navigation">
+      <created>1604521086915</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1604521086915</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,16 +120,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="using a react reducer hook to control state" />
-    <option name="LAST_COMMIT_MESSAGE" value="using a react reducer hook to control state" />
+    <MESSAGE value="using a react reducer hook to control state; added actions for navigation" />
+    <option name="LAST_COMMIT_MESSAGE" value="using a react reducer hook to control state; added actions for navigation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="445" y="158" key="Vcs.Push.Dialog.v2" timestamp="1604356622133">
-      <screen x="0" y="23" width="1792" height="1043" />
-    </state>
-    <state x="445" y="158" key="Vcs.Push.Dialog.v2/0.23.1792.1043@0.23.1792.1043" timestamp="1604356622133" />
-    <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604421656875">
+    <state x="747" y="229" key="Vcs.Push.Dialog.v2" timestamp="1604521094169">
       <screen x="0" y="23" width="3008" height="1589" />
     </state>
-    <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604421656875" />
+    <state x="445" y="158" key="Vcs.Push.Dialog.v2/0.23.1792.1043@0.23.1792.1043" timestamp="1604356622133" />
+    <state x="747" y="229" key="Vcs.Push.Dialog.v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604521094169" />
+    <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604677414632">
+      <screen x="0" y="23" width="3008" height="1589" />
+    </state>
+    <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604677414632" />
   </component>
 </project>

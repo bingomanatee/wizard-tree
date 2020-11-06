@@ -56,7 +56,7 @@ export default class Page {
   get isComplete() {
     if (this._isComplete !== null) {
       if (typeof this._isComplete === 'function') return this._isComplete(this);
-      return this._isComplete;
+      return !!this._isComplete;
     }
 
     let complete = true;
