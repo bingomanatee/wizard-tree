@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin/node /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin/yarn
+  /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin/node /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin/yarn publish
 
 PATH: 
-  /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dave.edelhartmckesson.com/Documents/repos/wizard-tree/node_modules/.bin
+  /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dave.edelhartmckesson.com/Documents/repos/react-wizard/node_modules/.bin
 
 Yarn version: 
   1.22.4
@@ -14,18 +14,23 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Users/dave.edelhartmckesson.com/Documents/repos/wizard-tree/rollup/package.json: Unexpected token } in JSON at position 733
-      at JSON.parse (<anonymous>)
-      at /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/lib/node_modules/yarn/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/lib/node_modules/yarn/lib/cli.js:310:30)
-      at /Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/lib/node_modules/yarn/lib/cli.js:321:13
+  Error: canceled
+      at Interface.<anonymous> (/Users/dave.edelhartmckesson.com/.nvm/versions/node/v12.18.3/lib/node_modules/yarn/lib/cli.js:137008:13)
+      at Interface.emit (events.js:315:20)
+      at Interface._ttyWrite (readline.js:868:16)
+      at ReadStream.onkeypress (readline.js:205:10)
+      at ReadStream.emit (events.js:315:20)
+      at emitKeys (internal/readline/utils.js:335:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1137:36)
+      at ReadStream.emit (events.js:315:20)
+      at addChunk (_stream_readable.js:295:12)
 
 npm manifest: 
   {
     "name": "@wonderlandlabs/react-wizard",
-    "version": "1.0.0",
-    "description": "A starter for making a react component",
+    "version": "0.0.8",
+    "description": "A framework state for frontend wizards",
     "main": "lib/index.js",
     "module": "es/index.js",
     "files": [
@@ -43,10 +48,11 @@ npm manifest:
       "doc": "gitdocs serve"
     },
     "dependencies": {
-      "lodash.isequal": "^4.5.0",
-      "prop-types": "^15.7.2",
       "immer": "7.0.14",
+      "lodash.flattendeep": "^4.4.0",
+      "lodash.isequal": "^4.5.0",
       "lodash.sortby": "4.7.0",
+      "prop-types": "^15.7.2"
     },
     "peerDependencies": {
       "react": "^17.0.0",
@@ -54,6 +60,7 @@ npm manifest:
       "styled-components": "^5.2.0"
     },
     "devDependencies": {
+      "@babel/plugin-proposal-class-properties": "^7.12.1",
       "@rollup/plugin-commonjs": "^15.0.0",
       "@rollup/plugin-node-resolve": "^9.0.0",
       "babel-eslint": "^10.0.3",
@@ -5185,6 +5192,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
     integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
   
+  immer@7.0.14:
+    version "7.0.14"
+    resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.14.tgz#3e605f8584b15a9520d2f2f3fda9441cc9170d25"
+    integrity sha512-BxCs6pJwhgSEUEOZjywW7OA8DXVzfHjkBelSEl0A+nEu0+zS4cFVdNOONvt55N4WOm8Pu4xqSPYxhm1Lv2iBBA==
+  
   import-fresh@^3.0.0, import-fresh@^3.1.0:
     version "3.2.1"
     resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.2.1.tgz#633ff618506e793af5ac91bf48b72677e15cbe66"
@@ -6047,6 +6059,11 @@ Lockfile:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
     integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+  
+  lodash.sortby@4.7.0:
+    version "4.7.0"
+    resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
+    integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
   
   lodash.template@^4.4.0:
     version "4.5.0"

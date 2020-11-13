@@ -1,4 +1,5 @@
 import { immerable } from 'immer';
+import sortBy from 'lodash.sortby';
 
 export default class Page {
   [immerable] = true
@@ -32,10 +33,39 @@ export default class Page {
       const map = new Map();
       dataMap.forEach((c) => map.set(c.id, c));
       this._data = map;
-    }
-    if (dataMap instanceof Map) {
+    } else if (dataMap instanceof Map) {
       this._data = dataMap;
     }
+
+    this._orderData();
+  }
+
+  _nextDataOrder() {
+    const usedOrders = new Set();
+    this.data.forEach((item) => {
+      if (typeof item.order === 'number') {
+        usedOrders.add(item.order);
+      }
+    });
+
+    let next = 0;
+    while (usedOrders.has(next)) {
+      next += 1;
+    }
+    return next;
+  }
+
+  _orderData() {
+    const orderedData = sortBy([...this._data.values()], 'order');
+    orderedData.forEach((dataItem) => {
+      if (typeof dataItem.order !== 'number') {
+        try {
+          dataItem.order = this._nextDataOrder();
+        } catch (error) {
+          console.error('cannot reorder ', dataItem, 'because', error);
+        }
+      }
+    });
   }
 
   get data() {

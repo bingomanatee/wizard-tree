@@ -1,7 +1,7 @@
 {
   "name": "@wonderlandlabs/react-wizard",
-  "version": "0.0.7",
-  "description": "A starter for making a react component",
+  "version": "0.0.8",
+  "description": "A framework state for frontend wizards",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [

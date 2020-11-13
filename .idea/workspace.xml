@@ -20,8 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4eae06f-f188-4e3f-8e96-6c8d429ce774" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/yarn-error.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +77,19 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -84,7 +102,9 @@
       <workItem from="1604366459393" duration="978000" />
       <workItem from="1604421605902" duration="14202000" />
       <workItem from="1604513764507" duration="8460000" />
-      <workItem from="1604598452087" duration="1496000" />
+      <workItem from="1604598452087" duration="2723000" />
+      <workItem from="1604681951745" duration="5909000" />
+      <workItem from="1605284474700" duration="3956000" />
     </task>
     <task id="LOCAL-00001" summary="using a react reducer hook to control state">
       <created>1604513969153</created>
@@ -100,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1604521086915</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="added errors to data">
+      <created>1604678474379</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1604678474379</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,17 +148,22 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="using a react reducer hook to control state" />
     <MESSAGE value="using a react reducer hook to control state; added actions for navigation" />
-    <option name="LAST_COMMIT_MESSAGE" value="using a react reducer hook to control state; added actions for navigation" />
+    <MESSAGE value="added errors to data" />
+    <option name="LAST_COMMIT_MESSAGE" value="added errors to data" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="747" y="229" key="Vcs.Push.Dialog.v2" timestamp="1604521094169">
+    <state x="747" y="229" key="Vcs.Push.Dialog.v2" timestamp="1604678479598">
       <screen x="0" y="23" width="3008" height="1589" />
     </state>
     <state x="445" y="158" key="Vcs.Push.Dialog.v2/0.23.1792.1043@0.23.1792.1043" timestamp="1604356622133" />
-    <state x="747" y="229" key="Vcs.Push.Dialog.v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604521094169" />
+    <state x="747" y="229" key="Vcs.Push.Dialog.v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604678479598" />
     <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604677414632">
       <screen x="0" y="23" width="3008" height="1589" />
     </state>
     <state x="1047" y="603" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3008.23.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1604677414632" />
+    <state x="1119" y="455" width="890" height="710" key="find.popup" timestamp="1605284492934">
+      <screen x="0" y="23" width="3008" height="1589" />
+    </state>
+    <state x="1119" y="455" width="890" height="710" key="find.popup/-1792.551.1792.1097/0.23.3008.1589@0.23.3008.1589" timestamp="1605284492934" />
   </component>
 </project>

@@ -108,27 +108,19 @@ export const getDataValue = (state) => (pageId, dataId) => {
   return data.value;
 };
 
-const _orderPageControls = (page) => {
-  sortBy([...page.data.values()], 'order')
-    .forEach((data, order) => {
-      data.order = order;
-    });
-};
-
-const _makePage = (...args) => {
-  if (args[0] instanceof Page) return args[0];
-  const page = new Page(...args);
-
-  if (page.order === null) {
-    page.order = -1;
+const _makePage = (id, name, props) => {
+  if (id instanceof Page) return id;
+  if (!('order' in props)) {
+    let order = -1;
     this.pages.forEach((otherPage) => {
-      if (otherPage.order > page.order) {
-        page.order = otherPage.order;
+      if (otherPage.order > order) {
+        order = otherPage.order;
       }
     });
-    page.order += 1;
+    order += 1;
+    props = { ...props, order };
   }
-  _orderPageControls(page);
+  const page = new Page(id, name, props);
   return page;
 };
 
@@ -185,7 +177,6 @@ export const reducerActions = {
     if (typeof args[args.length - 1] === 'function') cb = args.pop();
 
     const page = _makePage(...args);
-    _orderPageControls(page);
     state.pages.set(page.id, page);
     if (typeof cb === 'function') cb(page);
   },
@@ -196,7 +187,6 @@ export const reducerActions = {
     let cb = null;
     if (typeof newPages[pageList.length - 1] === 'function') cb = newPages.pop();
     newPages.forEach((page) => {
-      _orderPageControls(page);
       state.pages.set(page.id, page);
     });
     if (typeof cb === 'function') cb(newPages);
